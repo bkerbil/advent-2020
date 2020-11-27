@@ -5,4 +5,5 @@
             :url  "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]]
   :repl-options {:init-ns advent.core}
-  :profiles {:dev {:dependencies [[criterium "0.4.6"]]}})
+  :profiles {:dev {:dependencies [[criterium "0.4.6"]
+                                  [org.clojure/test.check "1.1.0"]]}})
