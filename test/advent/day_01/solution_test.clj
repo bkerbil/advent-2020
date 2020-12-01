@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [advent.day-01.solution :as s]))
 
-< (def mock-input [1721 979 366 299 675 1456])
+(def mock-input [1721 979 366 299 675 1456])
 (def target-value 2020)
 
 (deftest solve-test
