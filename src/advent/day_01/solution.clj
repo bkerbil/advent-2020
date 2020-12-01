@@ -2,6 +2,7 @@
   (:use [criterium.core])
   (:require [support.reader :as reader]))
 
+; Perhaps these could be combined to macro?
 (defn two-entries-matching-sum
   [entries sum]
   (for [a entries
@@ -17,6 +18,13 @@
         :when (= sum (+ a b c))]
     #{a b c}))
 
+(defn distinct-and-apply-multiplication
+  [values]
+  (->> values
+       distinct
+       first
+       (apply *)))
+
 
 ;; SOLVE
 
@@ -24,16 +32,13 @@
   "Find the two entries that sum to 2020; what do you get if you multiply them together?"
   [entries sum]
   (->> (two-entries-matching-sum entries sum)
-       distinct
-       first
-       (apply *)))
+       distinct-and-apply-multiplication))
 
 (defn solve-second
+  "What is the product of the three entries that sum to 2020?"
   [entries sum]
   (->> (three-entries-matching-sum entries sum)
-       distinct
-       first
-       (apply *)))
+       distinct-and-apply-multiplication))
 
 ;(def entries (->> "input.txt" reader/read-file-as-vec (map reader/string->integer)))
 ;(def sum 2020)
