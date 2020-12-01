@@ -20,9 +20,6 @@
 
 ;; SOLVE
 
-(def entries (->> "input.txt" reader/read-file-as-vec (map reader/string->integer)))
-(def sum 2020)
-
 (defn solve-first
   "Find the two entries that sum to 2020; what do you get if you multiply them together?"
   [entries sum]
@@ -37,6 +34,9 @@
        distinct
        first
        (apply *)))
+
+;(def entries (->> "input.txt" reader/read-file-as-vec (map reader/string->integer)))
+;(def sum 2020)
 
 ;(println (solve-first entries sum))                         ; 1018944
 ;(println (solve-second entries sum))                        ; 8446464
