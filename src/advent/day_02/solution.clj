@@ -1,7 +1,6 @@
 (ns advent.day-02.solution
   (:use [criterium.core])
-  (:require [support.reader :as r]
-            [clojure.core.match :as m]))
+  (:require [support.reader :as r]))
 
 (defn string->data
   [text]
@@ -23,17 +22,18 @@
   [password position]
   (nth (seq password) (dec position)))
 
+(defmacro xor
+  [a b]
+  `(not= ~a ~b))
+
 (defn valid-letter-in-xor-positions?
   [{:keys [min max required-letter password]}]
   (let [first-letter (get-letter password min)
         second-letter (get-letter password max)
         first-letter-matches? (= first-letter required-letter)
-        second-letter-matches? (= second-letter required-letter)]
-    (m/match [first-letter-matches? second-letter-matches?]
-             [true false] true
-             [false true] true
-             [true true] false
-             [false false] false)))
+        second-letter-matches? (= second-letter required-letter)
+        result (xor first-letter-matches? second-letter-matches?)]
+    result))
 
 (defn solve
   [f passwords]
