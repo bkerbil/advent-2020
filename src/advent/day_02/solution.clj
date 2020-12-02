@@ -5,13 +5,14 @@
 
 (defn string->data
   [text]
-  (let [regex #"^(\d+)-(\d+) ([a-z]){1}: (\w+)$"
-        matches (re-matches regex text)]
-    (let [[_ min max letter password] matches]
-      {:min             (Integer/parseInt min)
-       :max             (Integer/parseInt max)
-       :required-letter (first (seq letter))
-       :password        password})))
+  (rest (re-find #"^(\d+)-(\d+) ([a-z]){1}: (\w+)$" text)))
+
+(defn normalize
+  [[min max required-letter password]]
+  {:min             (Integer/parseInt min)
+   :max             (Integer/parseInt max)
+   :required-letter (->> required-letter seq first)
+   :password        password})
 
 (defn contains-required-letters?
   [{:keys [min max required-letter password]}]
@@ -38,6 +39,7 @@
   [f passwords]
   (->> passwords
        (map string->data)
+       (map normalize)
        (map f)
        (filter true?)
        count))
@@ -50,5 +52,5 @@
 ;(println (solve-first passwords))                           ; => 410
 ;(println (solve-second passwords))                          ; => 694
 
-;(bench (solve-first passwords))                             ; Execution time mean : 2 ms
-;(bench (solve-second passwords))                            ; Execution time mean : 1 ms
+;(bench (solve-first passwords))                             ; Execution time mean : 3 ms
+;(bench (solve-second passwords))                            ; Execution time mean : 2 ms
