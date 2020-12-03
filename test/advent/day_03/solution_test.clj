@@ -17,11 +17,7 @@
 
 (def example-chart (t/transform example-input))
 
-(deftest solve-first-test
+(deftest solve-multiple-test
   (testing "given example input, should return example result"
-    (is (= 7 (solve-first [0 0] [3 1] example-chart)))))
-
-(deftest solve-second-test
-  (testing "given example inputs, should return example result"
-    (is (= 336 (solve-second [0 0] [[1 1] [3 1] [5 1] [7 1] [1 2]] example-chart)))))
-
+    (is (= 7 (solve-multiple [0 0] example-chart [[3 1]])))
+    (is (= 336 (solve-multiple [0 0] example-chart [[1 1] [3 1] [5 1] [7 1] [1 2]])))))
