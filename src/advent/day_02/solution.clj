@@ -43,7 +43,7 @@
 (def solve-first (partial solve contains-required-letters?))
 (def solve-second (partial solve valid-letter-in-xor-positions?))
 
-(def passwords (r/read-file-as-vec "input.txt"))
+;(def passwords (r/read-file-as-vec "input.txt"))
 
 ;(println (solve-first passwords))                           ; => 410
 ;(println (solve-second passwords))                          ; => 694
