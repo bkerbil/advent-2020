@@ -1,6 +1,5 @@
 (ns advent.day-03.solution
-  (:use [criterium.core]
-        [clojure.pprint])
+  (:use [criterium.core])
   (:require [support.reader :as r]
             [advent.day-03.transform :as t]))
 
@@ -16,9 +15,8 @@
            result 0]
       (let [next-point (movement-point point movement)
             [x y] next-point
-            x (mod x width)
-            continue? (>= (dec height) y 0)]
-        (if continue?
+            x (mod x width)]
+        (if (>= (dec height) y 0)
           (let [value (get-in chart [y x])]
             (recur next-point (+ result value)))
           result)))))
@@ -37,5 +35,5 @@
 ;(println (solve [[3 1]]))                                   ; 156
 ;(println (solve [[1 1] [3 1] [5 1] [7 1] [1 2]]))           ; 3521829480
 
-;(bench (solve [[3 1]]))                                     ; Execution time mean : 81 µs
-;(bench (solve [[1 1] [3 1] [5 1] [7 1] [1 2]]))             ; Execution time mean : 366 µs
+;(bench (solve [[3 1]]))                                     ; Execution time mean : 76 µs
+;(bench (solve [[1 1] [3 1] [5 1] [7 1] [1 2]]))             ; Execution time mean : 358 µs
