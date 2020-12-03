@@ -4,9 +4,9 @@
 
 (deftest transform-test
   (testing "given a sequence of strings, should convert into multidimensional vector of keywords"
-    (is (= [[:open :tree]
-            [:tree :open]] (transform [".#" "#."])))
-    (is (= [[:open :tree :open :open]
-            [:tree :tree :open :open]
-            [:open :open :open :open]
-            [:tree :tree :tree :tree]] (transform [".#.." "##.." "...." "####"])))))
+    (is (= [[0 1]
+            [1 0]] (transform [".#" "#."])))
+    (is (= [[0 1 0 0]
+            [1 1 0 0]
+            [0 0 0 0]
+            [1 1 1 1]] (transform [".#.." "##.." "...." "####"])))))

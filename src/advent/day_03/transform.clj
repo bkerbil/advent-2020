@@ -1,14 +1,14 @@
 (ns advent.day-03.transform)
 
-(def char->keyword {\. :open
-                    \# :tree})
+(def char->integer {\. 0
+                    \# 1})
 
-(defn row->values
+(defn row->integers
   [row]
-  (->> row (map char->keyword) vec))
+  (->> row (map char->integer) vec))
 
 (defn transform
   [data]
   (->> data
-       (map row->values)
+       (map row->integers)
        vec))
