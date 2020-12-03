@@ -22,18 +22,14 @@
   [password position]
   (nth (seq password) (dec position)))
 
-(defmacro xor
-  [a b]
-  `(not= ~a ~b))
-
 (defn valid-letter-in-xor-positions?
   [{:keys [min max required-letter password]}]
   (let [first-letter (get-letter password min)
         second-letter (get-letter password max)
         first-letter-matches? (= first-letter required-letter)
         second-letter-matches? (= second-letter required-letter)
-        result (xor first-letter-matches? second-letter-matches?)]
-    result))
+        valid? (not= first-letter-matches? second-letter-matches?)]
+    valid?))
 
 (defn solve
   [f passwords]
