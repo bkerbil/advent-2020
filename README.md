@@ -7,3 +7,4 @@ Project's purpose is to practice programming and algorithms with help of the
 
 1. [Report Repair](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_01/solution.clj)
 2. [Password Philosophy](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_02/solution.clj)
+3. [Toboggan Trajectory](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_03/solution.clj)
