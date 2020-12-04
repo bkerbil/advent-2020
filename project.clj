@@ -7,4 +7,5 @@
                  [org.clojure/core.match "1.0.0"]]
   :repl-options {:init-ns advent.core}
   :profiles {:dev {:dependencies [[criterium "0.4.6"]
-                                  [org.clojure/test.check "1.1.0"]]}})
+                                  [org.clojure/test.check "1.1.0"]
+                                  [expound "0.8.6"]]}})
