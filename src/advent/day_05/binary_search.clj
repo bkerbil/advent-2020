@@ -23,7 +23,7 @@
 (defn binary-search-for-seat
   [rows columns boarding-pass]
   (let [row-seat (find-seat (:row boarding-pass) (dec rows))
-        coTransform lumn-seat (find-seat (:column boarding-pass) (dec columns))
+        column-seat (find-seat (:column boarding-pass) (dec columns))
         seat-id (seat-id columns row-seat column-seat)]
     seat-id))
 
