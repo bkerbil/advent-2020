@@ -20,10 +20,10 @@
         result (first (set/difference all-seats used-seats))]
     result))
 
-(def boarding-passes (slurp "input.txt"))
+;(def boarding-passes (slurp "input.txt"))
 
-(println (solve-first boarding-passes))                     ; 955
-(println (solve-second boarding-passes))                    ; 569
+;(println (solve-first boarding-passes))                     ; 955
+;(println (solve-second boarding-passes))                    ; 569
 
-(bench (solve-first boarding-passes))                       ; Execution time mean : 4 ms
-(bench (solve-second boarding-passes))                      ; Execution time mean : 4 ms
+;(bench (solve-first boarding-passes))                       ; Execution time mean : 3 ms
+;(bench (solve-second boarding-passes))                      ; Execution time mean : 4 ms
