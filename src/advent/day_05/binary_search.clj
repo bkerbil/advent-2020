@@ -4,18 +4,6 @@
   [value]
   (int (Math/ceil (/ value 2))))
 
-;(defn find-seat
-;  [truths value]
-;  (loop [t truths
-;         value value
-;         result 0]
-;    (let [h (half value)]
-;      (if (empty? t)
-;        result
-;        (if (true? (first t))
-;          (recur (rest t) h (+ result h))
-;          (recur (rest t) h result))))))
-
 (defn find-seat
   ([truths value]
    (find-seat truths value 0))
