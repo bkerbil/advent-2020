@@ -3,12 +3,13 @@
 
 (defn string->steps
   [text]
-  (let [conversion {\F :left \B :right \L :left \R :right}
+  (let [conversion {\B true, \R true,
+                    \F false, \L false}
         letters (seq text)
         rows (take 7 letters)
         columns (take-last 3 letters)]
-    {:row    (map conversion rows)
-     :column (map conversion columns)}))
+    {:row    (vec (map conversion rows))
+     :column (vec (map conversion columns))}))
 
 (defn input->steps
   [input]
