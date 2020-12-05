@@ -1,18 +1,14 @@
 (ns advent.day-05.parser
   (:require [clojure.string :as str]))
 
-(defn string->steps
+(defn string->binary
   [text]
-  (let [conversion {\B 1, \R 1,
-                    \F 0, \L 0}
-        letters (seq text)
-        rows (take 7 letters)
-        columns (take-last 3 letters)]
-    {:row    (vec (map conversion rows))
-     :column (vec (map conversion columns))}))
+  (-> text
+      (str/replace #"[BR]" "1")
+      (str/replace #"[FL]" "0")))
 
-(defn input->steps
+(defn input->binary
   [input]
   (->> input
        str/split-lines
-       (map string->steps)))
+       (map string->binary)))
