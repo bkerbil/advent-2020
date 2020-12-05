@@ -3,8 +3,8 @@
 
 (defn string->steps
   [text]
-  (let [conversion {\B true, \R true,
-                    \F false, \L false}
+  (let [conversion {\B 1, \R 1,
+                    \F 0, \L 0}
         letters (seq text)
         rows (take 7 letters)
         columns (take-last 3 letters)]
