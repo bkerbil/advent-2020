@@ -1,33 +1,29 @@
 (ns advent.day-05.solution
   (:use [criterium.core])
-  (:require [advent.day-05.parser :as parser]
+  (:require [clojure.set :as set]
+            [advent.day-05.parser :as parser]
             [advent.day-05.binary-search :as search]))
 
 (defn solve-first
-  [rows columns boarding-passes]
+  [boarding-passes]
   (->> boarding-passes
        (parser/input->steps)
-       (map (partial search/binary-search-for-seat rows columns))
-       (sort >)
-       first))
+       (map search/find-seat-id)
+       (apply max)))
 
 (defn solve-second
-  [rows columns boarding-passes]
-  (let [all-seats (set (range 71 955))
-        used-seats (->> boarding-passes
-                        (parser/input->steps)
-                        (map (partial search/binary-search-for-seat rows columns))
-                        sort
-                        set)
-        result (first (clojure.set/difference all-seats used-seats))]
+  [boarding-passes]
+  (let [used-seats (->> boarding-passes (parser/input->steps) (map search/find-seat-id) set)
+        min (apply min used-seats)
+        max (apply max used-seats)
+        all-seats (set (range min (inc max)))
+        result (first (set/difference all-seats used-seats))]
     result))
 
-;(def rows 128)
-;(def columns 8)
 ;(def boarding-passes (slurp "input.txt"))
 
-;(println (solve-first rows columns boarding-passes))        ; 955
-;(println (solve-second rows columns boarding-passes))       ; 569
+;(println (solve-first boarding-passes))                     ; 955
+;(println (solve-second boarding-passes))                    ; 569
 
-;(bench (solve-first rows columns boarding-passes))          ; Execution time mean : 14 ms
-;(bench (solve-second rows columns boarding-passes))         ; Execution time mean : 14 ms
+;(bench (solve-first boarding-passes))                       ; Execution time mean : 3 ms
+;(bench (solve-second boarding-passes))                      ; Execution time mean : 4 ms
