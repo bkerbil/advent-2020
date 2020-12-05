@@ -6,7 +6,7 @@
 (defn string->find-seat-id
   [boarding-pass]
   (->> boarding-pass
-       parser/string->steps
+       parser/string->binary
        find-seat-id))
 
 (deftest find-seat-id-test

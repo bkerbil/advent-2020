@@ -7,13 +7,13 @@
 (defn solve-first
   [boarding-passes]
   (->> boarding-passes
-       (parser/input->steps)
+       (parser/input->binary)
        (map search/find-seat-id)
        (apply max)))
 
 (defn solve-second
   [boarding-passes]
-  (let [used-seats (->> boarding-passes (parser/input->steps) (map search/find-seat-id) set)
+  (let [used-seats (->> boarding-passes (parser/input->binary) (map search/find-seat-id) set)
         min (apply min used-seats)
         max (apply max used-seats)
         all-seats (set (range min (inc max)))
@@ -25,5 +25,5 @@
 ;(println (solve-first boarding-passes))                     ; 955
 ;(println (solve-second boarding-passes))                    ; 569
 
-;(bench (solve-first boarding-passes))                       ; Execution time mean : 8 ms
-;(bench (solve-second boarding-passes))                      ; Execution time mean : 9 ms
+;(bench (solve-first boarding-passes))                       ; Execution time mean : 3 ms
+;(bench (solve-second boarding-passes))                      ; Execution time mean : 3 ms
