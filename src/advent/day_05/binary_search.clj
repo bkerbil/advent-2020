@@ -4,17 +4,28 @@
   [value]
   (int (Math/ceil (/ value 2))))
 
+;(defn find-seat
+;  [truths value]
+;  (loop [t truths
+;         value value
+;         result 0]
+;    (let [h (half value)]
+;      (if (empty? t)
+;        result
+;        (if (true? (first t))
+;          (recur (rest t) h (+ result h))
+;          (recur (rest t) h result))))))
+
 (defn find-seat
-  [truths value]
-  (loop [t truths
-         value value
-         result 0]
-    (let [h (half value)]
-      (if (empty? t)
-        result
-        (if (true? (first t))
-          (recur (rest t) h (+ result h))
-          (recur (rest t) h result))))))
+  ([truths value]
+   (find-seat truths value 0))
+  ([truths middle result]
+   (let [difference (half middle)]
+     (if (empty? truths)
+       result
+       (if (true? (first truths))
+         (recur (rest truths) difference (+ result difference))
+         (recur (rest truths) difference result))))))
 
 (defn seat-id
   [seats row column]
