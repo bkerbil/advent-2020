@@ -2,7 +2,8 @@
   (:require [clojure.test :refer :all]
             [advent.day-04.passport :as passport]
             [advent.day-04.parser :as parser]
-            [clojure.spec.alpha :as s]))
+            [clojure.spec.alpha :as s]
+            [advent.day-04.solution :as solution]))
 
 (defn single-passport
   [text]
@@ -70,3 +71,11 @@
     (is (true? (passport/valid? (single-passport "eyr:2029 ecl:blu cid:129 byr:1989\niyr:2014 pid:896056539 hcl:#a97842 hgt:165cm"))))
     (is (true? (passport/valid? (single-passport "hcl:#888785\nhgt:164cm byr:2001 iyr:2015 cid:88\npid:545766238 ecl:hzl\neyr:2022"))))
     (is (true? (passport/valid? (single-passport "iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719"))))))
+
+
+(def passports (slurp "./src/advent/day_04/input.txt"))
+
+(deftest solve-test
+  (testing "should return correct value for first and second puzzles"
+    (is (= 206 (solution/solve-first passports)))
+    (is (= 123 (solution/solve-second passports)))))

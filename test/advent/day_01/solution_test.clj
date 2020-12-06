@@ -1,12 +1,13 @@
 (ns advent.day-01.solution-test
   (:require [clojure.test :refer :all]
-            [advent.day-01.solution :as s]))
+            [advent.day-01.solution :as solution]
+            [clojure.string :as str]))
 
-(def mock-input [1721 979 366 299 675 1456])
-(def target-value 2020)
+(def entries (->> (slurp "./src/advent/day_01/input.txt")
+                  str/split-lines
+                  (map #(Integer/parseInt %))))
 
 (deftest solve-test
-  (testing "given entries and a sum, should find such set of numbers which equal to the given sum if summed,
-  and return multiplication of such numbers"
-    (is (= 514579 (s/solve-first mock-input target-value)))
-    (is (= 241861950 (s/solve-second mock-input target-value)))))
+  (testing "should return correct value for first and second puzzles"
+    (is (= 1018944 (solution/solve-first entries 2020)))
+    (is (= 8446464 (solution/solve-second entries 2020)))))
