@@ -1,6 +1,6 @@
 (ns advent.day-02.solution
   (:use [criterium.core])
-  (:require [support.reader :as r]))
+  (:require [clojure.string :as str]))
 
 (defn string->data
   [text]
@@ -43,7 +43,8 @@
 (def solve-first (partial solve contains-required-letters?))
 (def solve-second (partial solve valid-letter-in-xor-positions?))
 
-;(def passwords (r/read-file-as-vec "input.txt"))
+;(def passwords (->> (slurp "input.txt")
+;                    (str/split-lines)))
 
 ;(println (solve-first passwords))                           ; => 410
 ;(println (solve-second passwords))                          ; => 694
