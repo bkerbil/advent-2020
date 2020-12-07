@@ -2,18 +2,22 @@
   (:use [clojure.pprint]
         [criterium.core])
   (:require [clojure.string :as str]
+            [clojure.set :as set]
             [advent.day-07.parser :as parser]))
 
-(defn exists-in-sub-bags?
-  [all-bags target-bag mystery-bag]
-  (loop [bags (get all-bags mystery-bag)]
-    (if (empty? bags)
-      false
-      (let [exists? (some #(= target-bag %) bags)]
-        (if exists?
-          true
-          (let [other-bags (reduce (fn [acc v] (concat acc (get all-bags v))) [] bags)]
-            (recur other-bags)))))))
+(defn contains-bag?
+  ([bags from to]
+   (contains-bag? bags to (conj #{} from) #{}))
+  ([bags target queue seen]
+   (cond
+     (empty? queue) false
+     (some #(= target %) (get bags (first queue))) true
+     :else (let [current (first queue)
+                 bag (get bags current)
+                 updated-seen (conj seen current)
+                 updated-queue (set/union queue bag)
+                 next-queue (set/difference updated-queue updated-seen)]
+             (recur bags target next-queue updated-seen)))))
 
 (defn total-bags
   [all-bags to-be-searched searched]
@@ -30,7 +34,7 @@
 (defn solve-first
   [bag bags]
   (->> (keys bags)
-       (filter #(exists-in-sub-bags? bags bag %))
+       (filter #(contains-bag? bags % bag))
        count))
 
 (defn solve-second
@@ -42,8 +46,12 @@
 ;               (map parser/parse)
 ;               (reduce merge)))
 
-;(println (solve-first :shiny-gold bags))                    ; 101
+;(def bags-simpler (->> bags
+;                       (map (fn [[k v]] (hash-map k (->> v (remove number?) set))))
+;                       (reduce merge)))
+
+;(println (solve-first :shiny-gold bags-simpler))            ; 101
 ;(println (solve-second :shiny-gold bags))                   ; 108636
 
-;(bench (solve-first :shiny-gold bags))                      ; Execution time mean : 480 ms
+;(bench (solve-first :shiny-gold bags-simpler))              ; Execution time mean : 45 ms
 ;(bench (solve-second :shiny-gold bags))                     ; Execution time mean : 360 µs
