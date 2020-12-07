@@ -25,7 +25,7 @@
     (reduce (fn [acc [_ v]] (+ acc v)) -1 searched)
     (let [current-bag (first to-be-searched)
           [bag amount] (first to-be-searched)
-          bags-in-bag (get all-bags bag)
+          bags-in-bag (->> (get all-bags bag) vec flatten)
           multiplied (map #(if (number? %) (* amount %) %) bags-in-bag)
           partitioned (partition 2 multiplied)
           new-to-be-searched (concat (rest to-be-searched) partitioned)]
@@ -41,17 +41,18 @@
   [bag bags]
   (total-bags bags [[bag 1]] []))
 
-;(def bags (->> (slurp "input.txt")
-;               str/split-lines
-;               (map parser/parse)
-;               (reduce merge)))
+;(def bags-with-map (->> (slurp "input.txt")
+;                        str/split-lines
+;                        (map parser/string->bag-with-map)
+;                        (reduce merge)))
 
-;(def bags-simpler (->> bags
-;                       (map (fn [[k v]] (hash-map k (->> v (remove number?) set))))
-;                       (reduce merge)))
+;(def bags-with-set (->> (slurp "input.txt")
+;                        str/split-lines
+;                        (map parser/string->bags-with-set)
+;                        (reduce merge)))
 
-;(println (solve-first :shiny-gold bags-simpler))            ; 101
-;(println (solve-second :shiny-gold bags))                   ; 108636
+;(println (solve-first :shiny-gold bags-with-set))           ; 101
+;(println (solve-second :shiny-gold bags-with-map))          ; 108636
 
-;(bench (solve-first :shiny-gold bags-simpler))              ; Execution time mean : 45 ms
-;(bench (solve-second :shiny-gold bags))                     ; Execution time mean : 360 µs
+;(bench (solve-first :shiny-gold bags-with-set))             ; Execution time mean : 45 ms
+;(bench (solve-second :shiny-gold bags-with-map))            ; Execution time mean : 640 µs
