@@ -5,24 +5,40 @@
   [text]
   (keyword (str/replace text " " "-")))
 
-(defn finds->value
-  [finds]
-  (try
-    (->> (drop 1 finds)
-         (map #(str/split % #", "))
-         flatten
-         (map #(str/replace % #" bags?" ""))
-         (map #(re-find #"^(\d+) (.*)$" %))
-         (map rest)
-         (map (fn [[amount bag]] [(string->keyword bag) (Integer/parseInt amount)]))
-         (reduce concat)
-         vec)
-    (catch Exception _
-      [])))
-
-(defn parse
+(defn string->bag
   [text]
-  (let [finds (rest (re-find #"^(.*) bags contain (.*).$" text))
-        k (-> (first finds) (string->keyword))
-        v (finds->value finds)]
-    (hash-map k v)))
+  (let [[_ matches] (re-find #"^(.*) bags contain" text)
+        joined (str/replace matches " " "-")
+        keywordized (keyword joined)]
+    keywordized))
+
+(defn string->contents-as-sets
+  [text]
+  (let [[_ matches] (flatten (re-seq #".* bags contain (.+).$" text))
+        split (re-seq #" (\D+) bag[s]?" matches)
+        contents (reduce (fn [bags [_ bag]]
+                           (let [kw (string->keyword bag)]
+                             (conj bags kw))) #{} split)]
+    contents))
+
+(defn string->contents-as-map
+  [text]
+  (let [[_ matches] (flatten (re-seq #".* bags contain (.+).$" text))
+        split (re-seq #"(\d+) (\D+) bag[s]?" matches)
+        contents (reduce (fn [bags [_ amount bag]]
+                           (let [kw (string->keyword bag)
+                                 value (Integer/parseInt amount)]
+                             (merge bags (hash-map kw value)))) {} split)]
+    contents))
+
+(defn string->bags-with-set
+  [text]
+  (let [bag (string->bag text)
+        contents (string->contents-as-sets text)]
+    (hash-map bag contents)))
+
+(defn string->bag-with-map
+  [text]
+  (let [bag (string->bag text)
+        contents (string->contents-as-map text)]
+    (hash-map bag contents)))
