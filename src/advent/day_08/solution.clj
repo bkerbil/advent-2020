@@ -32,36 +32,21 @@
               (recur (rest c) (merge results result-final))
               result)))))))
 
-(def instructions (->> (slurp "input.txt")
-                       str/split-lines
-                       parser/string->instructions))
-(def changes (parser/changes instructions))
+;(def instructions (->> (slurp "input.txt")
+;                       str/split-lines
+;                       parser/string->instructions))
+;(def changes (parser/changes instructions))
 
-(def state (ref instructions :validator machine/state-validator-fn))
-(def pointer (ref 0 :validator machine/pointer-validator-fn))
-(def accumulator (ref 0 :validator machine/accumulator-validator-fn))
+;(def state (ref instructions :validator machine/state-validator-fn))
+;(def pointer (ref 0 :validator machine/pointer-validator-fn))
+;(def accumulator (ref 0 :validator machine/accumulator-validator-fn))
 
-; uncomment for debugging
-(comment
-  (add-watch state :state-debug (fn [k _ref old-state new-state]
-                                  (let [oldval (set old-state)
-                                        newval (set new-state)
-                                        old (first (set/difference oldval newval))
-                                        new (first (set/difference newval oldval))]
-                                    (println k "         " old "->" new))))
-
-  (add-watch pointer :pointer-debug (fn [k _ref old-state new-state]
-                                      (println k "       " old-state "->" new-state)))
-
-  (add-watch accumulator :accumulator-debug (fn [k _ref old-state new-state]
-                                              (println k "   " old-state "->" new-state))))
-
-(println (stest/enumerate-namespace 'boot-code.data))
-(println (stest/enumerate-namespace 'boot-code.machine))
-(println (stest/enumerate-namespace 'boot-code.action))
+;(println (stest/enumerate-namespace 'boot-code.data))
+;(println (stest/enumerate-namespace 'boot-code.machine))
+;(println (stest/enumerate-namespace 'boot-code.action))
 
 ;(println (solve-first state pointer accumulator))           ; 1801
-(println (solve-second state pointer accumulator changes))  ; 2060
+;(println (solve-second state pointer accumulator changes))  ; 2060
 
 ;(bench (solve-first state pointer accumulator))             ; Execution time mean : 850 µs
 ;(bench (solve-second state pointer accumulator changes))    ;

@@ -1,21 +1,14 @@
 (ns advent.day-08.solution-test
   (:require [clojure.test :refer :all]
-            [boot-code.data :as data]
             [boot-code.machine :as machine]
+            [advent.day-08.parser :as parser]
             [advent.day-08.solution :as solution]
             [clojure.string :as str]))
 
 (def instructions (->> (slurp "./src/advent/day_08/input.txt")
                        str/split-lines
-                       (map data/string->instruction)
-                       vec))
-
-(def changes (->> instructions
-                  (reduce solution/instructions->map {:index-value 0})
-                  (solution/dissoc-index-value)
-                  (remove solution/op-acc?)
-                  (map solution/switch-op-jmp-and-nop)
-                  (into (sorted-map))))
+                       parser/string->instructions))
+(def changes (parser/changes instructions))
 
 (def state (ref instructions :validator machine/state-validator-fn))
 (def pointer (ref 0 :validator machine/pointer-validator-fn))
