@@ -8,12 +8,12 @@
 
 (defn instructions->map
   [instructions instruction]
-  (-> (assoc instructions (:index-value instructions) instruction)
-      (update :index-value inc)))
+  (-> (assoc instructions (:index instructions) instruction)
+      (update :index inc)))
 
 (defn dissoc-index-value
   [instructions]
-  (dissoc instructions :index-value))
+  (dissoc instructions :index))
 
 (defn op-acc?
   [[_ instruction]]
@@ -21,18 +21,18 @@
     true
     false))
 
-(defn switch-op-jmp-and-nop
+(defn switch-ops
   [[index instruction]]
   (let [{:keys [operation argument]} instruction]
-    (cond
-      (= operation :jmp) {index (Instruction. :nop argument)}
-      (= operation :nop) {index (Instruction. :jmp argument)})))
+    (if (= operation :jmp)
+      {index (Instruction. :nop argument)}
+      {index (Instruction. :jmp argument)})))
 
 (defn changes
   [instructions]
   (->> instructions
-       (reduce instructions->map {:index-value 0})
+       (reduce instructions->map {:index 0})
        (dissoc-index-value)
        (remove op-acc?)
-       (map switch-op-jmp-and-nop)
+       (map switch-ops)
        (into (sorted-map))))
