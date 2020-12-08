@@ -22,9 +22,13 @@
   ([state pointer accumulator pointers-visited]
    (let [pointer-value (run-instruction! state pointer accumulator)
          halt? (contains? pointers-visited pointer-value)]
-     (if halt?
-       @accumulator
-       (recur state pointer accumulator (conj pointers-visited pointer-value))))))
+     (if (>= @pointer (count @state))
+       {:accumulator @accumulator
+        :halted?     false}
+       (if halt?
+         {:accumulator @accumulator
+          :halted?     true}
+         (recur state pointer accumulator (conj pointers-visited pointer-value)))))))
 
 (defn pointer-validator-fn
   [value]

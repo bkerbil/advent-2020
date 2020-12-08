@@ -10,10 +10,18 @@
                        (map data/string->instruction)
                        vec))
 
+(def changes (->> instructions
+                  (reduce solution/instructions->map {:index-value 0})
+                  (solution/dissoc-index-value)
+                  (remove solution/op-acc?)
+                  (map solution/switch-op-jmp-and-nop)
+                  (into (sorted-map))))
+
 (def state (ref instructions :validator machine/state-validator-fn))
 (def pointer (ref 0 :validator machine/pointer-validator-fn))
 (def accumulator (ref 0 :validator machine/accumulator-validator-fn))
 
 (deftest solve-test
   (testing "should return correct value for first and second puzzles"
-    (is (= 1801 (solution/solve-first state pointer accumulator)))))
+    (is (= {:accumulator 1801, :halted? true} (solution/solve-first state pointer accumulator)))
+    (is (= {:accumulator 2060, :halted? false} (solution/solve-second state pointer accumulator changes)))))
