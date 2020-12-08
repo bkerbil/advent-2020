@@ -12,3 +12,4 @@ Project's purpose is to practice programming and algorithms with help of the
 5. [Binary Boarding](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_05/solution.clj)
 6. [Custom Customs](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_06/solution.clj)
 7. [Handy Haversacks](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_07/solution.clj)
+8. [Handheld Halting](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_08/solution.clj)
