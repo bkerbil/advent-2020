@@ -20,11 +20,11 @@
   ([state pointer accumulator]
    (run-instructions-until! state pointer accumulator #{}))
   ([state pointer accumulator pointers-visited]
-   (let [pointer-value (run-instruction! state pointer accumulator)
-         halt? (contains? pointers-visited pointer-value)]
-     (if (>= @pointer (count @state))
-       {:accumulator @accumulator
-        :halted?     false}
+   (if (>= @pointer (count @state))
+     {:accumulator @accumulator
+      :halted?     false}
+     (let [pointer-value (run-instruction! state pointer accumulator)
+           halt? (contains? pointers-visited pointer-value)]
        (if halt?
          {:accumulator @accumulator
           :halted?     true}
