@@ -7,8 +7,8 @@
 
 (stest/instrument `string->instruction)
 
-(deftest string->polarity-test
-  (testing "string->polarity /"
+(deftest string->operator-test
+  (testing "string->operator /"
     (testing "given plus, should return 1"
       (is (= 1 (string->operator "+"))))
     (testing "given minus, should return -1"
