@@ -9,8 +9,15 @@
             [clojure.spec.test.alpha :as stest]))
 
 (defn solve-first
-  [state pointer accumulator]
-  (machine/run-instructions-until! state pointer accumulator))
+  [instructions]
+  (let [state (ref instructions :validator machine/state-validator-fn)
+        pointer (ref 0 :validator machine/pointer-validator-fn)
+        accumulator (ref 0 :validator machine/accumulator-validator-fn)]
+    (machine/run-instructions-until! state pointer accumulator)))
+
+;;(def state (ref instructions :validator machine/state-validator-fn))
+;;(def pointer (ref 0 :validator machine/pointer-validator-fn))
+;;(def accumulator (ref 0 :validator machine/accumulator-validator-fn))
 
 (defn solve-second
   [state pointer accumulator changes]
@@ -45,8 +52,8 @@
 ;(println (stest/enumerate-namespace 'boot-code.machine))
 ;(println (stest/enumerate-namespace 'boot-code.action))
 
-;(println (solve-first state pointer accumulator))           ; 1801
+;(println (solve-first instructions))                        ; 1801
 ;(println (solve-second state pointer accumulator changes))  ; 2060
 
-;(bench (solve-first state pointer accumulator))             ; Execution time mean : 850 µs
+;(bench (solve-first instructions))                          ; Execution time mean : 1.3 ms
 ;(bench (solve-second state pointer accumulator changes))    ;

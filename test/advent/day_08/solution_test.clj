@@ -16,5 +16,5 @@
 
 (deftest solve-test
   (testing "should return correct value for first and second puzzles"
-    (is (= {:accumulator 1801, :halted? true} (solution/solve-first state pointer accumulator)))
+    (is (= {:accumulator 1801, :halted? true} (solution/solve-first instructions)))
     (is (= {:accumulator 2060, :halted? false} (solution/solve-second state pointer accumulator changes)))))
