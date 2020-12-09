@@ -1,19 +1,19 @@
 (ns advent.day-09.sum)
 
 (defn numbers-summable-to?
-  ([numbers target]
-   (numbers-summable-to? numbers target numbers))
+  ([numbers sum]
+   (numbers-summable-to? numbers sum numbers))
   ([numbers sum knapsack]
    (cond
      (empty? knapsack) false
      (some #(= sum (+ (first knapsack) %)) numbers) true
      :else (recur numbers sum (rest knapsack)))))
 
-
 (defn first-non-sum
   [amount numbers]
-  (let [sum (nth numbers amount)]
-    (if (numbers-summable-to? (take amount numbers) sum)
+  (let [sum (nth numbers amount)
+        part (take amount numbers)]
+    (if (numbers-summable-to? part sum)
       (recur amount (rest numbers))
       sum)))
 
