@@ -21,20 +21,12 @@
 
 (defn first-sum-matches
   ([target numbers]
-   (let [parts (take 1 numbers)
-         amount 1
+   (first-sum-matches target numbers 1))
+  ([target numbers amount]
+   (let [parts (take amount numbers)
          sum (reduce + parts)]
-     (first-sum-matches target numbers parts amount sum)))
-  ([target numbers parts amount sum]
-   (if (= target sum)
-     (+ (apply min parts) (apply max parts))
-     (if (> target sum)
-       (let [inc-amount (inc amount)
-             inc-parts (take inc-amount numbers)
-             inc-sum (reduce + inc-parts)]
-         (recur target numbers inc-parts inc-amount inc-sum))
-       (let [dec-amount (dec amount)
-             dec-numbers (drop 1 numbers)
-             dec-parts (take dec-amount dec-numbers)
-             dec-sum (reduce + dec-parts)]
-         (recur target dec-numbers dec-parts dec-amount dec-sum))))))
+     (if (= target sum)
+       (+ (apply min parts) (apply max parts))
+       (if (> target sum)
+         (recur target numbers (inc amount))
+         (recur target (drop 1 numbers) (dec amount)))))))
