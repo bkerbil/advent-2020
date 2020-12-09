@@ -8,5 +8,4 @@
 (deftest solve-test
   (testing "should return correct value for first and second puzzles"
     (is (= 556543474 (solution/solve-first 25 numbers)))
-    (is (= 76096372 (solution/solve-second 556543474 numbers)))
-    (is (= 76096372 (solution/solve-second-ver2 556543474 numbers)))))
+    (is (= 76096372 (solution/solve-second 556543474 numbers)))))
