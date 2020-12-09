@@ -12,10 +12,16 @@
   [target numbers]
   (second-solution/first-cumulative-sum-matches target numbers))
 
+(defn solve-second-ver2
+  [target numbers]
+  (second-solution/first-snake-sum-matches target numbers))
+
 ;(def numbers (parser/data->numbers (slurp "input.txt")))
 
 ;(println (solve-first 25 numbers))                          ; 556543474
 ;(println (solve-second 556543474 numbers))                  ; 76096372
+;(println (solve-second-ver2 556543474 numbers))             ; 76096372
 
 ;(bench (solve-first 25 numbers))                            ; 3 ms
 ;(bench (solve-second 556543474 numbers))                    ; 280 ms
+;(bench (solve-second-ver2 556543474 numbers))               ; 280 ms

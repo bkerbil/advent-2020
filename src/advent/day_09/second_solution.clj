@@ -1,4 +1,5 @@
-(ns advent.day-09.second_solution)
+(ns advent.day-09.second_solution
+  (:require [clojure.core.match :refer [match]]))
 
 (defn cumulative-sum-matches
   [target values]
@@ -19,3 +20,27 @@
     (if matches
       matches
       (recur target (rest numbers)))))
+
+(defn first-snake-sum-matches
+  ([target numbers]
+   (first-snake-sum-matches target numbers (take 1 numbers) 1 (count numbers) (reduce + (take 1 numbers))))
+  ([target numbers parts amount limit sum]
+   (match [(= target sum) (> target sum) (< target sum) (> limit amount)]
+          [true false false _] (let [min (apply min parts)
+                                     max (apply max parts)
+                                     result (+ min max)]
+                                 result)
+          [false true false true] (let [next-amount (inc amount)
+                                        next-parts (take next-amount numbers)
+                                        next-sum (reduce + next-parts)]
+                                    (recur target numbers next-parts next-amount limit next-sum))
+          [false true false false] (let [next-amount (dec amount)
+                                         next-parts (drop 1 parts)
+                                         next-sum (reduce + next-parts)
+                                         next-numbers (drop 1 numbers)]
+                                     (recur target next-numbers next-parts next-amount limit next-sum))
+          [false false true _] (let [next-amount (dec amount)
+                                     next-parts (drop 1 parts)
+                                     next-sum (reduce + next-parts)
+                                     next-numbers (drop 1 numbers)]
+                                 (recur target next-numbers next-parts next-amount limit next-sum)))))
