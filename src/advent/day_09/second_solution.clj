@@ -15,8 +15,7 @@
 
 (defn first-cumulative-sum-matches
   [target numbers]
-  (loop [numbers numbers]
-    (let [matches (cumulative-sum-matches target numbers)]
-      (if matches
-        matches
-        (recur (rest numbers))))))
+  (let [matches (cumulative-sum-matches target numbers)]
+    (if matches
+      matches
+      (recur target (rest numbers)))))
