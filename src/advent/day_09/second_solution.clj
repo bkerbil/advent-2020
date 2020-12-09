@@ -1,23 +1,4 @@
-(ns advent.day-09.support)
-
-(defn numbers-summable-to?
-  [numbers sum]
-  (->> (for [a numbers
-             b numbers
-             :when (and (= sum (+ a b)) (not= a b))]
-         [a b])
-       (map #(reduce + %))
-       empty?
-       not))
-
-(defn first-non-sum
-  [amount numbers]
-  (let [candidates (take amount numbers)
-        sum (nth numbers amount)
-        valid? (numbers-summable-to? candidates sum)]
-    (if valid?
-      (recur amount (rest numbers))
-      sum)))
+(ns advent.day-09.second_solution)
 
 (defn cumulative-sum-matches
   [target values]
