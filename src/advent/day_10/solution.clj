@@ -7,6 +7,7 @@
 (defn solve-first
   [numbers]
   (->> numbers
+       sort
        (partition 2 1)
        (map (fn [[a b]] (- b a)))
        (frequencies)
@@ -72,6 +73,7 @@
 (defn solve-second
   [numbers]
   (->> numbers
+       sort
        (partition 4 1)
        (map add-within-reach)
        (reduce to-multiplications {:tails [], :multiplications []})
@@ -79,10 +81,10 @@
        (:multiplications)
        (reduce *)))
 
-;(def numbers (->> "input.txt" slurp parser/data->numbers (apply conj [0 157]) sort))
+;(def numbers (->> "input.txt" slurp parser/data->numbers (apply conj [0 157])))
 
 ;(println (solve-first numbers))                             ; 1984
 ;(println (solve-second numbers))                            ; 3543369523456
 
-;(bench (solve-first numbers))                               ; Execution time mean : 60 µs
-;(bench (solve-second numbers))                              ;  Execution time mean : 520 µs
+;(bench (solve-first numbers))                               ; Execution time mean : 70 µs
+;(bench (solve-second numbers))                              ; Execution time mean : 570 µs
