@@ -4,16 +4,13 @@
             [advent.day-10.path :as path]
             [clojure.set :as set]))
 
-(defn reducer
-  [{:keys [current] :as accumulator} number]
-  (-> accumulator
-      (assoc :current number)
-      (update (- number current) inc)))
-
 (defn solve-first
   [numbers]
-  (let [result (reduce reducer {:current 0, 0 0, 1 0, 2 0, 3 0} (sort numbers))]
-    (* (get result 1) (get result 3))))
+  (->> numbers
+       (partition 2 1)
+       (map (fn [[a b]] (- b a)))
+       (frequencies)
+       (#(* (% 1) (% 3)))))
 
 (defn available
   [start numbers]
@@ -102,5 +99,5 @@
 ;(println (solve-first numbers))                             ; 1984
 ;(println (solve-second numbers))                            ; 3543369523456
 
-;(bench (solve-first numbers))                               ; Execution time mean : 28 µs
+;(bench (solve-first numbers))                               ; Execution time mean : 61 µs
 ;(bench (solve-second numbers))                              ; Execution time mean : 1 ms
