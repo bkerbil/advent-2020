@@ -15,3 +15,4 @@ Project's purpose is to practice programming and algorithms with help of the
 8. [Handheld Halting](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_08/solution.clj)
 9. [Encoding Error](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_09/solution.clj)
 10. [Adapter Array](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_10/solution.clj)
+11. [Seating System](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_11/solution.clj)
