@@ -1,53 +1,58 @@
 (ns advent.day-11.chart
-  (:require [advent.day-11.rule :as rule]))
+  (:require [advent.day-11.rule :as rule]
+            [clojure.spec.alpha :as s]
+            [clojure.string :as str]))
 
-(defn- create-coordinates
-  [x y]
-  (vec (for [y-range (range (dec y) (+ y 2))
-             x-range (range (dec x) (+ x 2))]
-         [x-range y-range])))
+(declare coordinate->pointer)
 
-(defn- remove-origin
-  [coordinates]
-  (vec (concat (subvec coordinates 0 4) (subvec coordinates 5))))
+(s/def ::int int?)
+(s/def ::coordinate->pointer-args (s/cat :x ::int :y ::int :width ::int))
+(s/def ::coordinate->pointer-ret ::int)
 
-(defn adjacent
-  [x y]
-  (->> (create-coordinates x y)
-       remove-origin))
+(s/fdef coordinate->pointer
+        :args ::coordinate->pointer-args
+        :ret ::coordinate->pointer-ret)
 
-(defn status
-  [chart coordinates]
+(defn coordinate->pointer
+  [x y width]
+  {:pre  [(s/valid? ::int x) (s/valid? ::int y) (s/valid? ::int width)]
+   :post [(s/valid? ::int %)]}
+  (+ x (* y width)))
+
+(defn neighbours-adjacent
+  [chart coordinates a b width height]
   (->> coordinates
-       (map (fn [[x y]] (let [status (get-in chart [y x])] status)))
+       (map (fn [[x y]]
+              (let [dx (+ a x)
+                    dy (+ b y)
+                    pointer (coordinate->pointer dx dy width)
+                    value (nth chart pointer nil)]
+                (if (or (neg? dx) (neg? dy) (>= dx width) (>= dy height))
+                  nil
+                  value))))
        (remove nil?)))
 
-(defn update-chart
-  [chart coordinates]
-  (loop [c coordinates
-         result []]
-    (if (empty? c)
-      result
-      (let [[x y] (first c)
-            adjacent (adjacent x y)
-            status (status chart adjacent)
-            point (get-in chart [y x])
-            new-point (rule/action point status)]
-        (recur (rest c) (conj result new-point))))))
+(def adjacent [[-1 -1] [0 -1] [1 -1] [-1 0] [1 0] [-1 1] [0 1] [1 1]])
 
-(defn chart-seq->chart
-  [width chart]
-  (->> (partition width chart)
-       (map vec)
-       vec))
+(defn update-chart
+  ([chart width height]
+   (update-chart chart chart 0 0 width height []))
+  ([original chart x y width height result]
+   (cond
+     (empty? chart) result
+     (>= x width) (recur original chart 0 (inc y) width height result)
+     :default (let [adjacent adjacent
+                    status (neighbours-adjacent original adjacent x y width height)
+                    value (first chart)
+                    new-point (rule/action value status)]
+                (recur original (rest chart) (inc x) y width height (conj result new-point))))))
 
 (defn update-chart-until-stable
-  [chart coordinates]
-  (let [width (count (first chart))]
-    (loop [c chart
-           hash-value (hash c)]
-      (let [updated-chart (->> (update-chart c coordinates) (chart-seq->chart width))
-            new-hash (hash updated-chart)]
-        (if (= hash-value new-hash)
-          updated-chart
-          (recur updated-chart new-hash))))))
+  ([chart width height]
+   (update-chart-until-stable chart width height (hash chart)))
+  ([chart width height hash-value]
+   (let [updated (update-chart chart width height)
+         new-hash (hash updated)]
+     (if (= hash-value new-hash)
+       updated
+       (recur updated width height new-hash)))))
