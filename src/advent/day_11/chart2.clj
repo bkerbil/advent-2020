@@ -1,4 +1,4 @@
-(ns advent.day-11.chart
+(ns advent.day-11.chart2
   (:require [clojure.spec.alpha :as s]))
 
 (declare coordinate->pointer)
@@ -17,6 +17,26 @@
    :post [(s/valid? ::int %)]}
   (+ x (* y width)))
 
+(defn direction
+  [a b x y]
+  (cond
+    (and (= x a) (> y b)) :north
+    (and (> x a) (> y b)) :north-east
+    (and (> x a) (= y b)) :east
+    (and (> x a) (< y b)) :south-east
+    (and (= x a) (< y b)) :south
+    (and (< x a) (< y b)) :south-west
+    (and (< x a) (= y b)) :west
+    (and (< x a) (> y b)) :north-west
+    :other :origin))
+
+(defn distance
+  [a b x y]
+  (let [x-axis (+ (* a a) (* x x))
+        y-axis (+ (* b b) (* y y))
+        result (Math/sqrt (+ x-axis y-axis))]
+    result))
+
 (defn neighbours-adjacent
   [chart coordinates a b width height]
   (->> coordinates
@@ -25,10 +45,20 @@
                     dy (+ b y)
                     pointer (coordinate->pointer dx dy width)
                     value (nth chart pointer nil)]
-                (if (or (neg? dx) (neg? dy) (>= dx width) (>= dy height))
+                (if (or (neg? dx) (neg? dy) (>= dx width) (>= dy height) (nil? value))
                   nil
-                  value))))
-       (remove nil?)))
+                  (let [direction (direction a b dx dy)
+                        distance (distance a b x y)]
+                    {:direction direction
+                     :distance  distance
+                     :value     value})))))
+       (remove nil?)
+       (sort-by :direction)
+       (group-by :direction)
+       (map (fn [[_ directions]]
+              (let [sorted (sort-by :distance directions)
+                    result (first sorted)]
+                (:value result))))))
 
 (defn update-chart
   ([chart width height action adjacent]
