@@ -1,7 +1,5 @@
 (ns advent.day-11.chart
-  (:require [advent.day-11.rule :as rule]
-            [clojure.spec.alpha :as s]
-            [clojure.string :as str]))
+  (:require [clojure.spec.alpha :as s]))
 
 (declare coordinate->pointer)
 
@@ -32,27 +30,24 @@
                   value))))
        (remove nil?)))
 
-(def adjacent [[-1 -1] [0 -1] [1 -1] [-1 0] [1 0] [-1 1] [0 1] [1 1]])
-
 (defn update-chart
-  ([chart width height]
-   (update-chart chart chart 0 0 width height []))
-  ([original chart x y width height result]
+  ([chart width height action adjacent]
+   (update-chart chart chart 0 0 width height (transient []) action adjacent))
+  ([original chart x y width height result action adjacent]
    (cond
-     (empty? chart) result
-     (>= x width) (recur original chart 0 (inc y) width height result)
-     :default (let [adjacent adjacent
-                    status (neighbours-adjacent original adjacent x y width height)
+     (empty? chart) (persistent! result)
+     (>= x width) (recur original chart 0 (inc y) width height result action adjacent)
+     :default (let [status (neighbours-adjacent original adjacent x y width height)
                     value (first chart)
-                    new-point (rule/action value status)]
-                (recur original (rest chart) (inc x) y width height (conj result new-point))))))
+                    new-point (action value status)]
+                (recur original (rest chart) (inc x) y width height (conj! result new-point) action adjacent)))))
 
 (defn update-chart-until-stable
-  ([chart width height]
-   (update-chart-until-stable chart width height (hash chart)))
-  ([chart width height hash-value]
-   (let [updated (update-chart chart width height)
+  ([chart width height action adjacent]
+   (update-chart-until-stable chart width height (hash chart) action adjacent))
+  ([chart width height hash-value action adjacent]
+   (let [updated (update-chart chart width height action adjacent)
          new-hash (hash updated)]
-     (if (= hash-value new-hash)
+     (if (= chart updated)
        updated
-       (recur updated width height new-hash)))))
+       (recur updated width height new-hash action adjacent)))))
