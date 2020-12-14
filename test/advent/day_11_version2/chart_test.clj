@@ -26,18 +26,18 @@
                             x (range 10)]
                         [x y])]
       (testing "should move from one example state to another"
-        (is (= chart-1 (update-chart-fn chart-0 coordinates neighbours-adjacent-fn pre-corona)))
-        (is (= chart-2 (update-chart-fn chart-1 coordinates neighbours-adjacent-fn pre-corona)))
-        (is (= chart-3 (update-chart-fn chart-2 coordinates neighbours-adjacent-fn pre-corona)))
-        (is (= chart-4 (update-chart-fn chart-3 coordinates neighbours-adjacent-fn pre-corona)))
-        (is (= chart-5 (update-chart-fn chart-4 coordinates neighbours-adjacent-fn pre-corona))))
+        (is (= chart-1 ((update-chart-fn chart-0 neighbours-adjacent-fn pre-corona) coordinates (transient []))))
+        (is (= chart-2 ((update-chart-fn chart-1 neighbours-adjacent-fn pre-corona) coordinates (transient []))))
+        (is (= chart-3 ((update-chart-fn chart-2 neighbours-adjacent-fn pre-corona) coordinates (transient []))))
+        (is (= chart-4 ((update-chart-fn chart-3 neighbours-adjacent-fn pre-corona) coordinates (transient []))))
+        (is (= chart-5 ((update-chart-fn chart-4 neighbours-adjacent-fn pre-corona) coordinates (transient [])))))
       (testing "post-corona"
-        (is (= chart-1-post-corona (update-chart-fn chart-0-post-corona coordinates neighbours-line-of-sight-fn post-corona)))
-        (is (= chart-2-post-corona (update-chart-fn chart-1-post-corona coordinates neighbours-line-of-sight-fn post-corona)))
-        (is (= chart-3-post-corona (update-chart-fn chart-2-post-corona coordinates neighbours-line-of-sight-fn post-corona)))
-        (is (= chart-4-post-corona (update-chart-fn chart-3-post-corona coordinates neighbours-line-of-sight-fn post-corona)))
-        (is (= chart-5-post-corona (update-chart-fn chart-4-post-corona coordinates neighbours-line-of-sight-fn post-corona)))
-        (is (= chart-6-post-corona (update-chart-fn chart-5-post-corona coordinates neighbours-line-of-sight-fn post-corona)))))))
+        (is (= chart-1-post-corona ((update-chart-fn chart-0-post-corona neighbours-line-of-sight-fn post-corona) coordinates (transient []))))
+        (is (= chart-2-post-corona ((update-chart-fn chart-1-post-corona neighbours-line-of-sight-fn post-corona) coordinates (transient []))))
+        (is (= chart-3-post-corona ((update-chart-fn chart-2-post-corona neighbours-line-of-sight-fn post-corona) coordinates (transient []))))
+        (is (= chart-4-post-corona ((update-chart-fn chart-3-post-corona neighbours-line-of-sight-fn post-corona) coordinates (transient []))))
+        (is (= chart-5-post-corona ((update-chart-fn chart-4-post-corona neighbours-line-of-sight-fn post-corona) coordinates (transient []))))
+        (is (= chart-6-post-corona ((update-chart-fn chart-5-post-corona neighbours-line-of-sight-fn post-corona) coordinates (transient []))))))))
 
 (deftest stabilize-test
   (testing "stabilize"
