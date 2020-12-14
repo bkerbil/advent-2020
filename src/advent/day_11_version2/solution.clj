@@ -17,4 +17,4 @@
 ;(def state (->> "input.txt" slurp parser/data->state))
 ;(println (solve-first state))                               ; 2338
 
-;(bench (solve-first state))                                 ; Execution time mean : 3 sec
+;(bench (solve-first state))                                 ; Execution time mean : 2.5 sec
