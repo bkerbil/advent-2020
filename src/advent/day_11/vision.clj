@@ -1,4 +1,4 @@
-(ns advent.day-11-version2.vision)
+(ns advent.day-11.vision)
 
 (defn neighbours-adjacent-fn
   ([chart x y directions]

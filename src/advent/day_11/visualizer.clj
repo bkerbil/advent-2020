@@ -1,4 +1,4 @@
-(ns advent.day-11-version2.visualizer)
+(ns advent.day-11.visualizer)
 
 (defn visualize!
   [state]

@@ -1,7 +1,7 @@
-(ns advent.day-11-version2.vision-test
+(ns advent.day-11.vision-test
   (:require [clojure.test :refer :all]
-            [advent.day-11-version2.vision :refer :all]
-            [advent.day-11-version2.parser :as parser]))
+            [advent.day-11.vision :refer :all]
+            [advent.day-11.parser :as parser]))
 
 (def chart
   (parser/data->chart
