@@ -21,9 +21,9 @@
          :else (recur state x y (rest directions) (conj result value)))))))
 
 (defn update-chart-fn
-  ([{:keys [state] :as chart} width _height coordinates]
-   (update-chart-fn chart width _height coordinates []))
-  ([{:keys [state] :as chart} width _height coordinates result]
+  ([{:keys [state] :as chart} width coordinates]
+   (update-chart-fn chart width coordinates []))
+  ([{:keys [state] :as chart} width coordinates result]
    (if (empty? coordinates)
      (let [new-state (->> result (partition width) (map vec) vec)
            chart-record (->Chart new-state)]
@@ -35,7 +35,7 @@
            empty (get freqs 0 0)
            occupied (get freqs 1 0)
            value (rule {:point point :empty empty :occupied occupied})]
-       (recur chart width _height (rest coordinates) (conj result value))))))
+       (recur chart width (rest coordinates) (conj result value))))))
 
 (defn final-state-fn
   [chart]
@@ -57,7 +57,7 @@
           coordinates (for [y (range height)
                             x (range width)]
                         [x y])]
-      (update-chart-fn chart width height coordinates)))
+      (update-chart-fn chart width coordinates)))
   (final-state [chart]
     (final-state-fn chart)))
 
