@@ -1,6 +1,5 @@
 (ns advent.day-11-version2.chart_test
   (:require [clojure.test :refer :all]
-            [advent.day-11-version2.protocols :refer :all]
             [advent.day-11-version2.parser :as parser]
             [advent.day-11-version2.chart :refer :all]
             [advent.day-11-version2.vision :refer :all]

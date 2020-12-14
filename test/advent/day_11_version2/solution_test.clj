@@ -1,7 +1,6 @@
 (ns advent.day-11-version2.solution-test
   (:require [clojure.test :refer :all]
             [advent.day-11-version2.parser :as parser]
-            [advent.day-11-version2.protocols]
             [advent.day-11-version2.chart]
             [advent.day-11-version2.solution :as solution]))
 
