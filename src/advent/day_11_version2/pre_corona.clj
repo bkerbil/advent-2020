@@ -3,11 +3,11 @@
             [advent.day-11-version2.parser :as parser])
   (:gen-class))
 
-(declare update-chart-fn ->Chart rule)
+(declare neighbours-adjacent-fn update-chart-fn ->Chart rule)
 
-(defn neighbours-fn
+(defn neighbours-adjacent-fn
   ([state x y directions]
-   (neighbours-fn state x y directions []))
+   (neighbours-adjacent-fn state x y directions []))
   ([state x y directions result]
    (if (empty? directions)
      result
@@ -50,7 +50,7 @@
   proto/IChart
   (neighbours [_ x y]
     (let [directions [[0 -1] [1 -1] [1 0] [1 1] [0 1] [-1 1] [-1 0] [-1 -1]]]
-      (neighbours-fn state x y directions)))
+      (neighbours-adjacent-fn state x y directions)))
   (update-chart [chart]
     (let [width (count (first state))
           height (count state)
