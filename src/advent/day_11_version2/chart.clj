@@ -1,7 +1,5 @@
 (ns advent.day-11-version2.chart)
 
-;(declare update-chart-fn)
-
 (defn update-chart-fn
   ([chart coordinates neighbours-fn rule-fn]
    (update-chart-fn chart coordinates (transient []) neighbours-fn rule-fn))
