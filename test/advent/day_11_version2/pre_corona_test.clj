@@ -48,7 +48,7 @@
         (is (= 1 (rule {:point 1 :occupied 3})))))
     (testing "floor"
       (is (nil? (rule {:point nil}))))))
-;
+
 (deftest update-chart-test
   (testing "update-chart"
     (testing "should move from one example state to another"

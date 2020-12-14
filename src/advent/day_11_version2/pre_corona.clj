@@ -1,40 +1,41 @@
 (ns advent.day-11-version2.pre-corona
-  (:require [advent.day-11-version2.protocols :as proto])
+  (:require [advent.day-11-version2.protocols :as proto]
+            [advent.day-11-version2.parser :as parser])
   (:gen-class))
 
 (declare update-chart-fn ->Chart rule)
 
 (defn neighbours-fn
-  [state x y directions]
-  (loop [d directions
-         result (transient [])]
-    (if (empty? d)
-      (persistent! result)
-      (let [[a b] (first d)
-            dx (+ x a)
-            dy (+ y b)
-            value (get-in state [dy dx] :out-of-limits)]
-        (cond
-          (= value :out-of-limits) (recur (rest d) result)
-          (= value nil) (recur (rest d) result)
-          :else (recur (rest d) (conj! result value)))))))
+  ([state x y directions]
+   (neighbours-fn state x y directions []))
+  ([state x y directions result]
+   (if (empty? directions)
+     result
+     (let [[a b] (first directions)
+           dx (+ x a)
+           dy (+ y b)
+           value (get-in state [dy dx] :out-of-limits)]
+       (cond
+         (= value :out-of-limits) (recur state x y (rest directions) result)
+         (= value nil) (recur state x y (rest directions) result)
+         :else (recur state x y (rest directions) (conj result value)))))))
 
 (defn update-chart-fn
-  [{:keys [state] :as chart} width _height coordinates]
-  (loop [c coordinates
-         result (transient [])]
-    (if (empty? c)
-      (let [new-state (->> (persistent! result) (partition width) (map vec) vec)
-            chart-record (->Chart new-state)]
-        chart-record)
-      (let [[x y] (first c)
-            point (get-in state [y x] :out-of-limits)
-            neighbours (proto/neighbours chart x y)
-            freqs (frequencies neighbours)
-            empty (get freqs 0 0)
-            occupied (get freqs 1 0)
-            value (rule {:point point :empty empty :occupied occupied})]
-        (recur (rest c) (conj! result value))))))
+  ([{:keys [state] :as chart} width _height coordinates]
+   (update-chart-fn chart width _height coordinates []))
+  ([{:keys [state] :as chart} width _height coordinates result]
+   (if (empty? coordinates)
+     (let [new-state (->> result (partition width) (map vec) vec)
+           chart-record (->Chart new-state)]
+       chart-record)
+     (let [[x y] (first coordinates)
+           point (get-in state [y x] :out-of-limits)
+           neighbours (proto/neighbours chart x y)
+           freqs (frequencies neighbours)
+           empty (get freqs 0 0)
+           occupied (get freqs 1 0)
+           value (rule {:point point :empty empty :occupied occupied})]
+       (recur chart width _height (rest coordinates) (conj result value))))))
 
 (defn final-state-fn
   [chart]
