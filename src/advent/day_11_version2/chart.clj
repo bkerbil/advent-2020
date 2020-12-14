@@ -30,8 +30,8 @@
         coordinates (for [y (range height)
                           x (range width)]
                       [x y])]
-    (loop [current-chart chart]
-      (let [updated-chart ((update-chart-fn current-chart neighbours-fn rule-fn) coordinates (transient []))]
-        (if (= current-chart updated-chart)
-          current-chart
+    (fn [chart]
+      (let [updated-chart ((update-chart-fn chart neighbours-fn rule-fn) coordinates (transient []))]
+        (if (= chart updated-chart)
+          chart
           (recur updated-chart))))))

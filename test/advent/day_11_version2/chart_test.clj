@@ -42,5 +42,5 @@
 (deftest stabilize-test
   (testing "stabilize"
     (testing "should stabilize on final state"
-      (is (= chart-5 (stabilize-fn chart-0 neighbours-adjacent-fn pre-corona)))
-      (is (= chart-6-post-corona (stabilize-fn chart-0-post-corona neighbours-line-of-sight-fn post-corona))))))
+      (is (= chart-5 ((stabilize-fn chart-0 neighbours-adjacent-fn pre-corona) chart-0)))
+      (is (= chart-6-post-corona ((stabilize-fn chart-0-post-corona neighbours-line-of-sight-fn post-corona) chart-0-post-corona))))))

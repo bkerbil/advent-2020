@@ -6,8 +6,8 @@
             [advent.day-11-version2.chart :as chart]))
 
 (defn solve
-  [neighbours-fn rule-fn state]
-  (->> (chart/stabilize-fn state neighbours-fn rule-fn)
+  [neighbours-fn rule-fn chart]
+  (->> ((chart/stabilize-fn chart neighbours-fn rule-fn) chart)
        flatten
        frequencies
        (#(get % 1))))
