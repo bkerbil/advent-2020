@@ -7,25 +7,23 @@
 (s/def ::string string?)
 (s/def ::string-args (s/cat :data ::string))
 (s/def ::status (s/and (s/nilable int?)))
-(s/def ::vector-of-statuses (s/coll-of ::status :kind vector))
+(s/def ::status-vector (s/coll-of ::status :kind vector))
+(s/def ::2d-status-vector (s/coll-of ::status-vector :kind vector))
 
 (defn- string->status-seq
   [text]
-  (let [conversions {\. nil                                 ; floor
-                     \L 0                                   ; empty
-                     \# 1}]                                 ; occupied
-    (map #(conversions %) text)))
+  (let [conversions {\. nil, \L 0, \# 1}]
+    (vec (map #(conversions %) text))))
 
 (s/fdef data->chart
         :args ::string-args
-        :ret ::vector-of-statuses)
+        :ret ::2d-status-vector)
 
 (defn data->chart
   [data]
   {:pre  [(s/valid? ::string data)]
-   :post [(s/valid? ::vector-of-statuses %)]}
+   :post [(s/valid? ::2d-status-vector %)]}
   (->> data
        (str/split-lines)
        (map string->status-seq)
-       flatten
        vec))

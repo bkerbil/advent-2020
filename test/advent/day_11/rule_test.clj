@@ -2,16 +2,26 @@
   (:require [clojure.test :refer :all]
             [advent.day-11.rule :refer :all]))
 
-(deftest action-test
-  (testing "action"
-    (testing "seat is empty and no occupied seats in sight"
-      (is (= 1 (action-adjacent 0 [0 0 0 0 0 0 0 0])))
-      (is (= 1 (action-adjacent 0 [0 0])))
-      (is (= 1 (action-adjacent 0 []))))
-    (testing "seat is occupied and four or more seats are also occupied"
-      (is (= 0 (action-adjacent 1 [1 1 1 1 0 0 0 0])))
-      (is (= 0 (action-adjacent 1 [1 1 1 1 1 0 0 0])))
-      (is (= 0 (action-adjacent 1 [1 1 1 1 1 1 1 1]))))
-    (testing "default case, should return given value"
-      (is (= 1 (action-adjacent 1 [0 0 0 0 0 0 0 0])))
-      (is (= 0 (action-adjacent 0 [1 0 0 0 0 0 0 0]))))))
+(deftest rule-test
+  (testing "rule"
+    (testing "empty [chair]"
+      (testing "there is more than one adjacent occupied seat"
+        (is (= 0 (pre-corona {:point 0 :occupied 1})))
+        (is (= 0 (pre-corona {:point 0 :occupied 4})))
+        (is (= 0 (pre-corona {:point 0 :occupied 5})))
+        (is (= 0 (pre-corona {:point 0 :occupied 8}))))
+      (testing "there is no occupied adjacent seats")
+      (is (= 1 (pre-corona {:point 0 :occupied 0}))))
+    (testing "occupied [chair]"
+      (testing "there is four or more adjacent occupied seats"
+        (is (= 0 (pre-corona {:point 1 :occupied 4})))
+        (is (= 0 (pre-corona {:point 1 :occupied 5})))
+        (is (= 0 (pre-corona {:point 1 :occupied 7})))
+        (is (= 0 (pre-corona {:point 1 :occupied 8}))))
+      (testing "there is less than four adjacent occupied seats"
+        (is (= 1 (pre-corona {:point 1 :occupied 0})))
+        (is (= 1 (pre-corona {:point 1 :occupied 1})))
+        (is (= 1 (pre-corona {:point 1 :occupied 2})))
+        (is (= 1 (pre-corona {:point 1 :occupied 3})))))
+    (testing "floor"
+      (is (nil? (pre-corona {:point nil}))))))
