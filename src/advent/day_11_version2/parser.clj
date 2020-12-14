@@ -15,11 +15,11 @@
   (let [conversions {\. nil, \L 0, \# 1}]
     (vec (map #(conversions %) text))))
 
-(s/fdef data->state
+(s/fdef data->chart
         :args ::string-args
         :ret ::2d-vector-of-vectors-of-statuses)
 
-(defn data->state
+(defn data->chart
   [data]
   {:pre  [(s/valid? ::string data)]
    :post [(s/valid? ::2d-vector-of-vectors-of-statuses %)]}
