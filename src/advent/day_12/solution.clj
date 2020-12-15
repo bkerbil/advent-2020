@@ -6,15 +6,9 @@
 
 (defn solve-first
   [instructions]
-  (loop [i instructions
-         ferry (->Ferry 0 0 :east)]
-    (if (empty? i)
-      (support/manhattan-distance ferry)
-      (let [instruction (first i)
-            action (get support/action-parser (:action instruction))
-            value (:value instruction)
-            ferry-moved (action ferry value)]
-        (recur (rest i) ferry-moved)))))
+  (let [ferry (support/iterate-instructions instructions (->Ferry 0 0 :east))
+        manhattan-distance (support/manhattan-distance ferry)]
+    manhattan-distance))
 
 ;(def instructions (->> "input.txt" slurp parser/data->instructions))
 
