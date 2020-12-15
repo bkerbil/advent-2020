@@ -6,7 +6,7 @@
 
 (defn solve-first
   [instructions]
-  (let [ferry (support/iterate-instructions instructions (->Ferry 0 0 :east))
+  (let [ferry (support/reduce-instructions instructions (->Ferry 0 0 :east))
         manhattan-distance (support/manhattan-distance ferry)]
     manhattan-distance))
 
@@ -14,4 +14,4 @@
 
 ;(println (solve-first instructions))                        ; 508
 
-;(bench (solve-first instructions))                          ; Execution time mean : 185 µs
+;(bench (solve-first instructions))                          ; Execution time mean : 160 µs

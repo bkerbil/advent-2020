@@ -11,15 +11,13 @@
                     :R proto/right
                     :L proto/left})
 
-(defn iterate-instructions
+(defn reduce-instructions
   [instructions ferry]
-  (if (empty? instructions)
-    ferry
-    (let [instruction (first instructions)
-          action (get support/action-parser (:action instruction))
-          value (:value instruction)
-          ferry-moved (action ferry value)]
-      (recur (rest instructions) ferry-moved))))
+  (reduce (fn [result instruction]
+            (let [action (get support/action-parser (:action instruction))
+                  value (:value instruction)
+                  ferry-moved (action result value)]
+              ferry-moved)) ferry instructions))
 
 (defn manhattan-distance
   ([ferry]
