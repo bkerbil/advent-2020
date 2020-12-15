@@ -1,7 +1,8 @@
 (ns advent.day-12.instruction-proper
   (:require [advent.day-12.protocols :as proto]
-            [advent.day-12.location :as l]
-            [advent.day-12.rotate :as r]))
+            [advent.day-12.location :as l]))
+
+(declare rotate-clockwise-degrees rotate-counterclockwise-degrees)
 
 (defrecord Instruction-Proper [x y wx wy direction]
   proto/Move
@@ -24,9 +25,26 @@
       (l/update-location this dx dy)))
   (right [this degrees]
     "Rotate the waypoint around the ship clockwise given degrees."
-    (let [[wx-rotated wy-rotated] (r/rotate-clockwise-degrees degrees [wx wy])]
+    (let [[wx-rotated wy-rotated] (rotate-clockwise-degrees degrees [wx wy])]
       (l/assoc-waypoint this wx-rotated wy-rotated)))
   (left [this degrees]
     "Rotate the waypoint around the ship counter-clockwise given degrees."
-    (let [[wx-rotated wy-rotated] (r/rotate-counterclockwise-degrees degrees [wx wy])]
+    (let [[wx-rotated wy-rotated] (rotate-counterclockwise-degrees degrees [wx wy])]
       (l/assoc-waypoint this wx-rotated wy-rotated))))
+
+(defn rotate-clockwise
+  [x y]
+  [y (- x)])
+
+(defn rotate-counterclockwise
+  [x y]
+  [(- y) x])
+
+(defn rotate-times
+  [f degrees coordinates]
+  (if (<= degrees 0)
+    coordinates
+    (recur f (- degrees 90) (apply f coordinates))))
+
+(def rotate-clockwise-degrees (partial rotate-times rotate-clockwise))
+(def rotate-counterclockwise-degrees (partial rotate-times rotate-counterclockwise))
