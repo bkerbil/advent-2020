@@ -1,7 +1,8 @@
 (ns advent.day-12.solution-test
-  (:require [clojure.test :refer :all]
-            [advent.day-12.solution :as solution]
-            [advent.day-12.parser :as parser]))
+  (:require
+    [clojure.test :refer :all]
+    [advent.day-12.parser :as parser]
+    [advent.day-12.solution :as solution]))
 
 (def instructions (->> "./src/advent/day_12/input.txt" slurp parser/data->instructions))
 
