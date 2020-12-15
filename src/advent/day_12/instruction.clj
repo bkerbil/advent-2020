@@ -1,9 +1,9 @@
-(ns advent.day-12.ferry
+(ns advent.day-12.instruction
   (:require [advent.day-12.protocols :as proto]
             [advent.day-12.direction :as d]
             [advent.day-12.location :as l]))
 
-(defrecord Ferry [x y direction]
+(defrecord Instruction [x y direction]
   proto/Move
   (north [this value]
     "Move north by the given value."

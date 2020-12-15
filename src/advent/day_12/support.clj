@@ -1,6 +1,6 @@
 (ns advent.day-12.support
   (:require [advent.day-12.protocols :as proto]
-            [advent.day-12.ferry :refer [->Ferry]]
+            [advent.day-12.instruction :refer [->Instruction]]
             [advent.day-12.support :as support]))
 
 (def action-parser {:N proto/north
@@ -12,15 +12,15 @@
                     :L proto/left})
 
 (defn reduce-instructions
-  [instructions ferry]
+  [instructions instruction]
   (reduce (fn [result instruction]
             (let [action (get support/action-parser (:action instruction))
                   value (:value instruction)
                   ferry-moved (action result value)]
-              ferry-moved)) ferry instructions))
+              ferry-moved)) instruction instructions))
 
 (defn manhattan-distance
-  ([ferry]
-   (let [x (Math/abs ^int (:x ferry))
-         y (Math/abs ^int (:y ferry))]
+  ([instruction]
+   (let [x (Math/abs ^int (:x instruction))
+         y (Math/abs ^int (:y instruction))]
      (+ x y))))

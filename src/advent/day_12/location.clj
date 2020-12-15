@@ -1,7 +1,7 @@
 (ns advent.day-12.location)
 
 (defn update-location
-  [this x y]
-  (-> this
+  [instruction x y]
+  (-> instruction
       (update :x + x)
       (update :y + y)))

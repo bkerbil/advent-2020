@@ -14,8 +14,8 @@
 (defn turn
   [f direction degrees]
   (let [direction-value (get direction->number direction)
-        change-value (quot degrees 90)
-        new-direction (get number->direction (mod (f direction-value change-value) 4))]
+        direction-change (quot degrees 90)
+        new-direction (get number->direction (mod (f direction-value direction-change) 4))]
     new-direction))
 
 (def turn-right (partial turn +))
