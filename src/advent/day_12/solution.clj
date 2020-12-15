@@ -18,5 +18,5 @@
 ;(println (solve-first instructions))                        ; 508
 ;(println (solve-second instructions))                       ; 30761
 
-;(bench (solve-first instructions))                          ; Execution time mean : 160 µs
-;(bench (solve-second instructions))                         ; Execution time mean : 225 µs
+;(bench (solve-first instructions))                          ; Execution time mean : 150 µs
+;(bench (solve-second instructions))                         ; Execution time mean : 220 µs
