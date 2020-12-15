@@ -1,20 +1,18 @@
 (ns advent.day-12.support
-  (:require [advent.day-12.protocols :as proto]
-            [advent.day-12.instruction :refer [->Instruction]]
-            [advent.day-12.support :as support]))
+  (:require [advent.day-12.protocols :as proto]))
 
-(def action-parser {:N proto/north
-                    :E proto/east
-                    :S proto/south
-                    :W proto/west
-                    :F proto/forward
-                    :R proto/right
-                    :L proto/left})
+(def actions {:N proto/north
+              :E proto/east
+              :S proto/south
+              :W proto/west
+              :F proto/forward
+              :R proto/right
+              :L proto/left})
 
 (defn reduce-instructions
   [instructions instruction]
   (reduce (fn [result instruction]
-            (let [action (get support/action-parser (:action instruction))
+            (let [action (get actions (:action instruction))
                   value (:value instruction)
                   ferry-moved (action result value)]
               ferry-moved)) instruction instructions))
