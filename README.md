@@ -17,3 +17,5 @@ Project's purpose is to practice programming and algorithms with help of the
 10. [Adapter Array](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_10/solution.clj)
 11. [Seating System](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_11/solution.clj)
 12. [Rain Risk](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_12/solution.clj)
+13. [Shuttle Search]() *[TODO later]*
+14. [Docking Data](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_14/solution.clj)
