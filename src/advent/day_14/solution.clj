@@ -5,17 +5,14 @@
             [advent.day-14.docking-program :refer [->Docking-Program] :as d]))
 
 (defn solve-first
-  [instructions]
-  (loop [i instructions
-         program (->Docking-Program {} nil)]
-    (if (empty? i)
-      (proto/initialize program)
-      (let [a (first i)
-            result (d/action a program)]
-        (recur (rest i) result)))))
+  [instructions program]
+  (if (empty? instructions)
+    (proto/initialize program)
+    (recur (rest instructions) (d/action (first instructions) program))))
 
 ;(def instructions (->> "input.txt" slurp p/string->instructions))
+;(def docking-program (->Docking-Program {} nil))
 
-;(println (solve-first instructions))                        ; 15919415426101
+;(println (solve-first instructions docking-program))        ; 15919415426101
 
-;(bench (solve-first instructions))                          ; 4.5 ms
+;(bench (solve-first instructions docking-program))          ; 4.5 ms
