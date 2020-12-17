@@ -49,6 +49,6 @@
    (if (empty? bitmask)
      (->> result (map reverse) (map #(str/join "" %)))
      (let [bit (first bitmask)]
-       (cond
-         (= bit \X) (recur (rest bitmask) (add-0-and-1-to-tails result))
-         :else (recur (rest bitmask) (add-value-to-tails result bit)))))))
+       (if (= bit \X)
+         (recur (rest bitmask) (add-0-and-1-to-tails result))
+         (recur (rest bitmask) (add-value-to-tails result bit)))))))
