@@ -2,12 +2,12 @@
 
 (defn first-spoken?
   [last-spoken history]
-  (<= (count (get history last-spoken [])) 1))
+  (<= (count (get history last-spoken)) 1))
 
 (defn update-history
   [last-spoken last-turn history]
-  (let [spoken-history (get history last-spoken [])
-        updated-history (->> (conj spoken-history last-turn) (take-last 2) vec)]
+  (let [spoken-history (get history last-spoken '())
+        updated-history (->> (cons last-turn spoken-history) (take 2))]
     (assoc history last-spoken updated-history)))
 
 (defn speak
@@ -21,8 +21,8 @@
             (assoc :last-spoken last-spoken
                    :last-turn current-turn
                    :history updated-history)))
-      (let [seen (get history last-spoken [])
-            last-spoken (->> seen reverse (reduce -))
+      (let [seen (get history last-spoken '())
+            last-spoken (reduce - seen)
             updated-history (update-history last-spoken current-turn history)]
         (-> state
             (assoc :last-spoken last-spoken
@@ -42,4 +42,4 @@
         (recur (rest n) (inc turn) (-> result
                                        (assoc :last-spoken number)
                                        (assoc :last-turn turn)
-                                       (update :history assoc number [turn])))))))
+                                       (update :history assoc number (cons turn '()))))))))
