@@ -26,3 +26,9 @@
               (let [split (str/split values #",")
                     converted (map #(Integer/parseInt %) split)]
                 (vec converted))))))
+
+(defn your-ticket
+  [input]
+  (as-> input $
+        (str/split $ #",")
+        (map #(Integer/parseInt %) $)))
