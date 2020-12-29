@@ -1,7 +1,9 @@
 (ns advent.day-17.solution
   (:use [criterium.core])
   (:require [advent.day-17.parser :as parser]
-            [advent.day-17.space-3d :as space]))
+            [advent.day-17.protocols :as proto]
+            [advent.day-17.space :as space]
+            [advent.day-17.space-3d :refer [->Space-3D]]))
 
 (defn solve-first
   [cycles space]
@@ -10,8 +12,9 @@
         depth (space/depth space)
         initialized (space/init width height depth cycles)
         initial-space (space/seed-space initialized space)
-        cycled (space/cycle-times cycles initial-space)
-        cubes (space/cubes cycled)]
+        space-3d (->Space-3D initial-space)
+        cycled (proto/cycle-times space-3d cycles)
+        cubes (proto/cubes cycled)]
     cubes))
 
 ;(def space-2d (->> "input.txt" slurp parser/string->2d-space))
