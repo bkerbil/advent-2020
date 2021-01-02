@@ -21,4 +21,5 @@ Project's purpose is to practice programming and algorithms with help of the
 14. [Docking Data](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_14/solution.clj)
 15. [Rambunctious Recitation](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_15/solution.clj) *[TODO rewrite; very slow solution]*
 16. [Ticket Translation](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_16/solution.clj)
-16. [Conway Cubes](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_17/solution.clj) *[TODO rewrite; use map instead of multidimensional array(s)]*
+17. [Conway Cubes](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_17/solution.clj) *[TODO rewrite; use map instead of multidimensional array(s)]*
+18. [Operation Order](https://github.com/bkerbil/advent-2020/blob/master/src/advent/day_18/solution.clj) *[TODO rewrite; use built-in eval with prefix-math-notation]*
