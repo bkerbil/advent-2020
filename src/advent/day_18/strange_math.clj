@@ -13,18 +13,17 @@
        (recur (rest numbers) (rest operations) (operation result number))))))
 
 (defn solve-equation
-  ([math-seq]
-   (loop [m math-seq]
-     (cond
-       (some #{+} m) (let [index (.indexOf m +)
-                           [a b c] (subvec (vec m) (dec index) (+ index 2))
-                           result (b a c)
-                           head (subvec (vec m) 0 (dec index))
-                           tail (subvec (vec m) (+ index 2))
-                           new-math-seq (concat head [result] tail)]
-                       (recur new-math-seq))
-       (= (count m) 1) (first m)
-       :else (reduce * (filter number? m))))))
+  [math-seq]
+  (cond
+    (some #{+} math-seq) (let [index (.indexOf math-seq +)
+                               [a b c] (subvec (vec math-seq) (dec index) (+ index 2))
+                               result (b a c)
+                               head (subvec (vec math-seq) 0 (dec index))
+                               tail (subvec (vec math-seq) (+ index 2))
+                               new-math-seq (concat head [result] tail)]
+                           (recur new-math-seq))
+    (= (count math-seq) 1) (first math-seq)
+    :else (reduce * (filter number? math-seq))))
 
 (defn convert
   [value]
